@@ -141,4 +141,14 @@ class Flow {
     rerollLetters() {
         //Exclude Node id -1
     }
+
+
+    updateAges() {
+        let allIds = Object.keys(this.nodes);
+        console.log(Object.keys(this.nodes));
+
+        for(let i = 0; i < allIds.length;i++) {
+            this.nodes[allIds[i]].age += 1;
+        }
+    }
 }

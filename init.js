@@ -8,5 +8,8 @@ flow.rerollConnections();
 flow.rerollLetters();
 
 
+flow.updateAges();
+
+
 document.getElementById("startClock").addEventListener("click", () => startClockInit(flow));
 document.getElementById("stopClock").addEventListener("click", stopClockInit);

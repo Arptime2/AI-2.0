@@ -19,7 +19,10 @@ async function startClock(...flows) {
 
             //Do tests here later
 
+
+
             //First update the age of every node
+            flow.updateAges();
 
             //Score first
             flow.setScore();
