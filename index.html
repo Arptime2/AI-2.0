@@ -8,8 +8,31 @@
     <title>AI 2.0</title>
 </head>
 <body>
-    <script src="/Nodes/Create_Node.js"></script>
+    <script src="/Flow/Scoring/Score.js"></script>
+    <script src="/Flow/Clock/Clock.js"></script>
+    <script src="/Nodes/Node.js"></script>
+    <script src="/Flow/Flow.js"></script>
+
+
     <h1>AI 2.0</h1>
     <input type="text" id="userInput">
+    <p id="output">Test</p>
+    <div>
+        <p class="sidePannel">multiplier: </p>
+        <input type="text" id="multiplier" class="sidePannel">
+        <p class="sidePannel">clockSpeed: </p>
+        <input type="text" id="clockSpeed" class="sidePannel">
+        <p class="sidePannel">deletionAge: </p>
+        <input type="text" id="deletionAge" class="sidePannel">
+
+        <button type="button" id="startClock" class="sidePannel clock">Start Clock</button>
+        <button type="button" id="stopClock" class="sidePannel clock">Stop Clock</button>
+
+        <p class="sidePannel">Logs: </p>
+    </div>
+
+
+    <!-- <script src="/UI/Quick_Variables/clock.js"></script> -->
+    <script src="init.js"></script>
 </body>
 </html>
