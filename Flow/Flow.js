@@ -86,15 +86,15 @@ class Flow {
             this.nodes[allIds[i]].letterChances2[letter2] += nodeScore;
             //console.log(connections);
 
-            //DEPENDS ON HOW CHOSEN CONNECTIONS ARE STORED
+            //DEPENDS ON HOW CHOSEN CONNECTIONS ARE STORED ->Done
             for(let j = 0; j < connections.length; j++)
             {
-                //this.setChance();
+                this.setChance(connections[connections[j]][0], connections[connections[j]][1], this.getChance(connections[connections[j]][0], connections[connections[j]][1]) + nodeScore);
             }
         }
     }
 
-    updateINChances(){
+    updateINChances(){ //I dont think this seperate function is really needed
         //limited with 70%max and 30min percent
     }
 
@@ -121,18 +121,18 @@ class Flow {
 
 
         //2D loop
-        for(let i = 0; i < allIds.length;i++) {
+        for(let i = 0; i < allIds.length; i++) {
             ///Do i also not have to set all connections chosen array to nothing again?????
             this.nodes[allIds[i]].chosenConnections = [];
 
-            for(let j = 0; j < allIds.length;j++) {
+            for(let j = 0; j < allIds.length; j++) {
                 let currentChance = this.getChance(allIds[i], allIds[j]);
 
                 //Decide with random
                 if ((Math.random() * 100) < currentChance) {
                     //Save chosen connection
-                    //What format??? what is input and what output (i or j)???
-                    this.nodes[allIds[i]].chosenConnections
+                    //What format??? what is input and what output (i or j)???  ---------- first is input then output
+                    this.nodes[allIds[i]].chosenConnections.push([allIds[i], allIds[j]]);
                 }
             }
         } 
@@ -140,6 +140,12 @@ class Flow {
 
     rerollLetters() {
         //Exclude Node id -1
+        let allIds = Object.keys(this.nodes);
+        console.log(Object.keys(this.nodes));
+
+        //Go through each node
+        //For each node take all letter1 and letter2 chances each together
+        //Then from that decide the letter to pick for each and set it
     }
 
 

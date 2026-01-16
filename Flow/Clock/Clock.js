@@ -18,6 +18,7 @@ async function startClock(...flows) {
 
 
             //Do tests here later
+            //And also sometimes just output matricies to see
 
 
 

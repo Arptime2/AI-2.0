@@ -17,6 +17,9 @@ Then be able to start the clock and in clock on every cycle: (event listener but
 
 
 
+ --------------------- I still have to make node -1 and -2 to handle all their special cases
+
+
 
 I will have to define a way to use the current letter/connection to update the chances with the score(s) and also check if a node got deleted or created (or rathe make it so that gets automatically added as an own object to the array of objects and gets initialized with the correct amount of array positions and all other nodes arrays also get updated to that more or less position)
 
