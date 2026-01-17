@@ -25,14 +25,10 @@ class Score {
     }
 
     setCorrectNothingScore() {
-        this.currentStreak = 0;
-
         this.score = this.correctNothingScore;
     }
 
     setIncorrectNothingScore() {
-        this.currentStreak = 0;
-
         this.score = this.incorrectNothingScore;
     }
 }

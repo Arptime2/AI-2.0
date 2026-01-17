@@ -82,24 +82,48 @@ class Flow {
             let nodeScore = this.score.score;
 
             //Update chances
-            this.nodes[allIds[i]].letterChances1[letter1] += nodeScore;
-            this.nodes[allIds[i]].letterChances2[letter2] += nodeScore;
+            this.nodes[allIds[i]].letterChances1[letter1] = this.chanceLimit(this.nodes[allIds[i]].letterChances1[letter1], nodeScore, allIds[i]);
+
+            this.nodes[allIds[i]].letterChances2[letter2] = this.chanceLimit(this.nodes[allIds[i]].letterChances2[letter2], nodeScore, allIds[i]);
             //console.log(connections);
 
             //DEPENDS ON HOW CHOSEN CONNECTIONS ARE STORED ->Done
+            //How the fuck do i check here and is that correct because isnt comnections a dict (dict[j] might not get all nodes id ones were deleted?)
             for(let j = 0; j < connections.length; j++)
             {
-                this.setChance(connections[connections[j]][0], connections[connections[j]][1], this.getChance(connections[connections[j]][0], connections[connections[j]][1]) + nodeScore);
+                this.setChance(connections[connections[j]][0], connections[connections[j]][1], this.chanceLimit(this.getChance(connections[connections[j]][0], connections[connections[j]][1]), nodeScore, j));
             }
         }
     }
 
-    updateINChances(){ //I dont think this seperate function is really needed
-        //limited with 70%max and 30min percent
+    chanceLimit(currentChance, nodeScore, id) {
+        let correctChance = 0;
+
+        if((id == -1) || (id == -2)) {
+            if(currentChance + nodeScore >= 90) {
+                correctChance = 90;
+            } else if(currentChance + nodeScore <= 10) {
+                correctChance = 10;
+            } else {
+                correctChance = currentChance + nodeScore;
+            }
+        } else {
+            if(currentChance + nodeScore >= 100) {
+                correctChance = 100;
+            } else if(currentChance + nodeScore <= 0) {
+                correctChance = 0;
+            } else {
+                correctChance = currentChance + nodeScore;
+            }
+        }
+
+        return correctChance
     }
 
 
     manageNodes() {
+        //Exclude node -1 and -2
+
         //Create new nodes
         //Delete Nodes
 
@@ -108,7 +132,7 @@ class Flow {
         //Delete on 100%/0% for any chance in a node and a certain age that it has to reach
 
         //Create: To have a constant population that can be controlled???? -> please no more variables
-        //Or 
+        //Or (has to be just one number of how many to create)
     }
 
     rerollConnections() {
@@ -129,7 +153,7 @@ class Flow {
                 let currentChance = this.getChance(allIds[i], allIds[j]);
 
                 //Decide with random
-                if ((Math.random() * 100) < currentChance) {
+                if(((Math.random() * 100) < currentChance) && allIds[j] != -1) {
                     //Save chosen connection
                     //What format??? what is input and what output (i or j)???  ---------- first is input then output
                     this.nodes[allIds[i]].chosenConnections.push([allIds[i], allIds[j]]);
@@ -146,6 +170,15 @@ class Flow {
         //Go through each node
         //For each node take all letter1 and letter2 chances each together
         //Then from that decide the letter to pick for each and set it
+        for(let i = 0; i < allIds.length; i++) {
+            //Get all percentages from all letters (A, B, C, ...)
+            //Get all together
+            //Calculate random
+            //Set letters
+            if((allIds[i] != -1) || (allIds[i] != -2)) {
+
+            }
+        }
     }
 
 
