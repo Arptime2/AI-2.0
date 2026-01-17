@@ -153,7 +153,7 @@ class Flow {
                 let currentChance = this.getChance(allIds[i], allIds[j]);
 
                 //Decide with random
-                if(((Math.random() * 100) < currentChance) && allIds[j] != -1) {
+                if(((Math.random() * 100) < currentChance) && (allIds[j] != -1)) {
                     //Save chosen connection
                     //What format??? what is input and what output (i or j)???  ---------- first is input then output
                     this.nodes[allIds[i]].chosenConnections.push([allIds[i], allIds[j]]);
@@ -175,10 +175,27 @@ class Flow {
             //Get all together
             //Calculate random
             //Set letters
-            if((allIds[i] != -1) || (allIds[i] != -2)) {
 
+
+            //Or make an array with all possible stuff and the number determoins the number of that in the array and then chose one value in the array
+            if((allIds[i] != -1) || (allIds[i] != -2)) {
+                this.nodes[allIds[i]].chosenLetter1 = this.weightedRandomSelect(this.nodes[allIds[i]].letterChances1);
+                this.nodes[allIds[i]].chosenLetter2 = this.weightedRandomSelect(this.nodes[allIds[i]].letterChances2);
             }
         }
+    }
+
+
+    weightedRandomSelect(letterChances) {
+        const expanded = [];
+        
+        for (let letter in letterChances) {
+            for (let count = 0; count < letterChances[letter]; count++) {
+                expanded.push(letter);
+            }
+        }
+        
+        return expanded[Math.floor(Math.random() * expanded.length)];
     }
 
 
@@ -186,7 +203,7 @@ class Flow {
         let allIds = Object.keys(this.nodes);
         console.log(Object.keys(this.nodes));
 
-        for(let i = 0; i < allIds.length;i++) {
+        for(let i = 0; i < allIds.length; i++) {
             this.nodes[allIds[i]].age += 1;
         }
     }

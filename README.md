@@ -39,7 +39,7 @@ How to implement the global clock (always only one will be needed)?????????
 
 
 So i still have to:
-- Do reroll letters function
+- Do reroll letters function   ------Done
 - Do manage nodes function
 - check and fix and exclude -1 nd -2 for chances in update chances for connections  -----Done
 
