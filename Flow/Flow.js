@@ -73,7 +73,7 @@ class Flow {
         //update all the stuff
 
         //Limit update values at 0% and 100%
-        for(let i = 0; i < allIds.length;i++) {
+        for(let i = 0; i < allIds.length; i++) {
             //Get all
             let letter1 = this.nodes[allIds[i]].chosenLetter1;
             let letter2 = this.nodes[allIds[i]].chosenLetter2;
@@ -91,6 +91,7 @@ class Flow {
             //How the fuck do i check here and is that correct because isnt comnections a dict (dict[j] might not get all nodes id ones were deleted?)
             for(let j = 0; j < connections.length; j++)
             {
+                //This is still wrong somehow (error)
                 this.setChance(connections[connections[j]][0], connections[connections[j]][1], this.chanceLimit(this.getChance(connections[connections[j]][0], connections[connections[j]][1]), nodeScore, j));
             }
         }
@@ -127,12 +128,49 @@ class Flow {
         //Create new nodes
         //Delete Nodes
 
+        //Object.values(dict).includes(value); 
+
         //Rules:
         //(Maybe do with case statements)
         //Delete on 100%/0% for any chance in a node and a certain age that it has to reach
 
+        //Go through all nodes and first look if the required age is reached yet
+        //Then go through all both letter nd the connection chnaces and see if any is at 0 or 100
+        //If yes then delete otherwise leave
+        let allIds = Object.keys(this.nodes);
+        console.log(Object.keys(this.nodes));
+
+
+        for(let i = 0; i < allIds.length; i++) {
+            if((allIds[i] == -1) || (allIds[i] == -2)) {
+                if(Object.values(this.nodes[allIds[i]].letterChances1).includes(0) || Object.values(this.nodes[allIds[i]].letterChances1).includes(100) || Object.values(this.nodes[allIds[i]].letterChances2).includes(0) || Object.values(this.nodes[allIds[i]].letterChances2).includes(100)) {
+                    this.deleteNode(allIds[i]);
+                    this.addNode(allIds[i]);
+                }
+            }
+        }
+
+        //filter for connections that are 0 or 100 and remove the nodes
+        //I think this will not work correctly
+        let keys = [];
+        for(let i in this.connectionChances) {
+            if ((this.connectionChances[i] == 100) || (this.connectionChances[i] == 0)) {
+                keys.push(i);  // Collects ALL: ['a', 'c']
+            }
+        }
+        for(let i = 0; i < keys.length; i++) {
+            this.deleteNode(keys[i]);
+            this.addNode(allIds[i]);
+        }
+
+
+
+
         //Create: To have a constant population that can be controlled???? -> please no more variables
         //Or (has to be just one number of how many to create)
+
+        //For now just keep a constant population
+
     }
 
     rerollConnections() {
@@ -171,12 +209,6 @@ class Flow {
         //For each node take all letter1 and letter2 chances each together
         //Then from that decide the letter to pick for each and set it
         for(let i = 0; i < allIds.length; i++) {
-            //Get all percentages from all letters (A, B, C, ...)
-            //Get all together
-            //Calculate random
-            //Set letters
-
-
             //Or make an array with all possible stuff and the number determoins the number of that in the array and then chose one value in the array
             if((allIds[i] != -1) || (allIds[i] != -2)) {
                 this.nodes[allIds[i]].chosenLetter1 = this.weightedRandomSelect(this.nodes[allIds[i]].letterChances1);
@@ -205,6 +237,13 @@ class Flow {
 
         for(let i = 0; i < allIds.length; i++) {
             this.nodes[allIds[i]].age += 1;
+        }
+    }
+
+
+    startingPopulation(numNodes) {
+        for (let i = 0; i < numNodes; i++) {
+            this.addNode(i);
         }
     }
 }

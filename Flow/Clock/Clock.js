@@ -11,6 +11,9 @@ async function startClockInit(...flows) {
 }
 
 async function startClock(...flows) {
+    //Create starting population
+    flow.startingPopulation(10);
+
     if(!stop) {
         console.log("Clock");
         {
@@ -23,21 +26,21 @@ async function startClock(...flows) {
 
 
             //First update the age of every node
-            flow.updateAges();
+            flow.updateAges(); //easy test
 
             //Score first
-            flow.setScore();
+            flow.setScore(); //easy test
 
             //Then update the chances
             //Has to still get a different function for node -1 and -2 and also still the limiters for 0%, 100%, 70% and 30%
-            flow.updateChances();
+            flow.updateChances(); //test with different scores and chances and also for IN and OUT
 
             //Then delete/create nodes
-            flow.manageNodes();
+            flow.manageNodes(); //fairly easy test
 
             //Then reroll connections and letters with chances
-            flow.rerollConnections();
-            flow.rerollLetters();
+            flow.rerollConnections(); //test with different scores and chances and also for IN and OUT and with different nodes in general
+            flow.rerollLetters(); //test with different scores and chances and also for IN and OUT and diffrent nodes in general
         }
     }
     //console.log(flows);

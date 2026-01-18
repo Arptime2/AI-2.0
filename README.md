@@ -17,6 +17,8 @@ Then be able to start the clock and in clock on every cycle: (event listener but
 
  - Flow through nodes (get input)
 
+ - Gettting and setting in and output
+
 
 
  --------------------- I still have to make node -1 and -2 to handle all their special cases
