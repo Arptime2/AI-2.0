@@ -91,8 +91,8 @@ class Flow {
             //How the fuck do i check here and is that correct because isnt comnections a dict (dict[j] might not get all nodes id ones were deleted?)
             for(let j = 0; j < connections.length; j++)
             {
-                //This is still wrong somehow (error)
-                this.setChance(connections[connections[j]][0], connections[connections[j]][1], this.chanceLimit(this.getChance(connections[connections[j]][0], connections[connections[j]][1]), nodeScore, j));
+                //This is still wrong somehow (error) Is this now still wrong???? -> tests
+                this.setChance(connections[j][0], connections[j][1], this.chanceLimit(this.getChance(connections[j][0], connections[j][1]), nodeScore, connections[j][0]));
             }
         }
     }
