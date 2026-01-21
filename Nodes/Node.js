@@ -26,19 +26,4 @@ class Node {
 
         this.age = 0;
     }
-
-    chooseConnections() {
-
-    }
-
-    chooseLetters() {
-
-    }
-
-    updateNode() {
-        this.age += 1;
-
-        this.chooseConnections();
-        this.chooseLetters();
-    }
 }

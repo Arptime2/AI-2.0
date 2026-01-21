@@ -5,15 +5,18 @@ async function startClockInit(...flows) {
     stop = false;
     clockTick = async () => startClock(flows);  // SINGLE fn created ONCE per start
 
+
+
+    //Create starting population
+    flow.startingPopulation(10);
+
     clockTick();
 
     console.log(flows);
 }
 
 async function startClock(...flows) {
-    //Create starting population
-    flow.startingPopulation(10);
-
+    flow.tests();
     if(!stop) {
         console.log("Clock");
         {
@@ -26,10 +29,11 @@ async function startClock(...flows) {
 
 
             //First update the age of every node
-            flow.updateAges(); //easy test
+            flow.tests();
+            //flow.updateAges(); //easy test ---- works
 
             //Score first
-            flow.setScore(); //easy test
+            flow.setScore(); //easy test  ----- works
 
             //Then update the chances
             //Has to still get a different function for node -1 and -2 and also still the limiters for 0%, 100%, 70% and 30%

@@ -16,8 +16,8 @@ class Flow {
     addNode(id) {
         this.connectionChances[id] = {};
         this.nodes[id] = new Node(id);
-        console.log(this.nodes);
-        console.log(this.connectionChances);
+        //console.log(this.nodes);
+        //console.log(this.connectionChances);
     }
 
     deleteNode(id) {
@@ -26,6 +26,7 @@ class Flow {
     }
 
     setChance(id1, id2, chance) {
+        console.log(`Setting chance for [${id1}][${id2}]:`, chance);
         this.connectionChances[id1][id2] = chance;
     }
 
@@ -66,7 +67,7 @@ class Flow {
     updateChances() {
         //get all node ids
         let allIds = Object.keys(this.nodes);
-        console.log(Object.keys(this.nodes));
+        //console.log(Object.keys(this.nodes));
 
         //Loop through each node:
         //get selected stuff of each node and where it is
@@ -91,6 +92,7 @@ class Flow {
             //How the fuck do i check here and is that correct because isnt comnections a dict (dict[j] might not get all nodes id ones were deleted?)
             for(let j = 0; j < connections.length; j++)
             {
+                console.log(this.getChance(connections[j][0], connections[j][1]));
                 //This is still wrong somehow (error) Is this now still wrong???? -> tests
                 this.setChance(connections[j][0], connections[j][1], this.chanceLimit(this.getChance(connections[j][0], connections[j][1]), nodeScore, connections[j][0]));
             }
@@ -138,7 +140,7 @@ class Flow {
         //Then go through all both letter nd the connection chnaces and see if any is at 0 or 100
         //If yes then delete otherwise leave
         let allIds = Object.keys(this.nodes);
-        console.log(Object.keys(this.nodes));
+        //console.log(Object.keys(this.nodes));
 
 
         for(let i = 0; i < allIds.length; i++) {
@@ -146,6 +148,8 @@ class Flow {
                 if(Object.values(this.nodes[allIds[i]].letterChances1).includes(0) || Object.values(this.nodes[allIds[i]].letterChances1).includes(100) || Object.values(this.nodes[allIds[i]].letterChances2).includes(0) || Object.values(this.nodes[allIds[i]].letterChances2).includes(100)) {
                     this.deleteNode(allIds[i]);
                     this.addNode(allIds[i]);
+
+                    console.log("Delete");
                 }
             }
         }
@@ -161,6 +165,8 @@ class Flow {
         for(let i = 0; i < keys.length; i++) {
             this.deleteNode(keys[i]);
             this.addNode(allIds[i]);
+
+            console.log("Delete");
         }
 
 
@@ -179,7 +185,7 @@ class Flow {
         //Decide if connect according to chances  (use getChance)
         //save the decision in chosenConnections  (use setChance)
         let allIds = Object.keys(this.nodes);
-        console.log(Object.keys(this.nodes));
+        //console.log(Object.keys(this.nodes));
 
 
         //2D loop
@@ -203,7 +209,7 @@ class Flow {
     rerollLetters() {
         //Exclude Node id -1
         let allIds = Object.keys(this.nodes);
-        console.log(Object.keys(this.nodes));
+        //console.log(Object.keys(this.nodes));
 
         //Go through each node
         //For each node take all letter1 and letter2 chances each together
@@ -233,7 +239,7 @@ class Flow {
 
     updateAges() {
         let allIds = Object.keys(this.nodes);
-        console.log(Object.keys(this.nodes));
+        //console.log(Object.keys(this.nodes));
 
         for(let i = 0; i < allIds.length; i++) {
             this.nodes[allIds[i]].age += 1;
@@ -245,5 +251,30 @@ class Flow {
         for (let i = 0; i < numNodes; i++) {
             this.addNode(i);
         }
+    }
+
+
+
+
+
+
+    tests() {
+        let allIds = Object.keys(this.nodes);
+        //console.log(Object.keys(this.nodes));
+
+
+        // for(let i = 0; i < allIds.length; i++) {
+        //     console.log(this.nodes[allIds[i]]);
+        // }
+
+        // console.log(this.score.currentStreak);
+        // console.log(this.score.score);
+
+        // for(let i = 0; i < allIds.length; i++) {
+        //     console.log("id: " + allIds[i]);
+        //     console.log(this.nodes[allIds[i]].letterChances1);
+        // }
+
+        console.log(this.connectionChances);
     }
 }
