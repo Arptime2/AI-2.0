@@ -7,11 +7,11 @@ flow.tests();
 
 // flow.rerollConnections();
 // flow.rerollLetters();
-function startTestInterval(testFunction) {
-    return setInterval(testFunction, 100);
-}
+// function startTestInterval(testFunction) {
+//     return setInterval(testFunction, 100);
+// }
 
-const intervalId = startTestInterval(() => flow.tests());
+// const intervalId = startTestInterval(() => flow.tests());
 
 // flow.updateAges();
 

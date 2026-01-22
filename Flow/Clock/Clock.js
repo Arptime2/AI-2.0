@@ -16,7 +16,7 @@ async function startClockInit(...flows) {
 }
 
 async function startClock(...flows) {
-    flow.tests();
+    // flow.tests();
     if(!stop) {
         console.log("Clock");
         {
@@ -40,7 +40,7 @@ async function startClock(...flows) {
             flow.updateChances(); //test with different scores and chances and also for IN and OUT
 
             //Then delete/create nodes
-            flow.manageNodes(); //fairly easy test
+            flow.manageNodes(); //I think there is an error ther with this: ((this.connectionChances[i] == 100) || (this.connectionChances[i] == 0)) what do i actually want to check there??? connectionChances is 2D
 
             //Then reroll connections and letters with chances
             flow.rerollConnections(); //test with different scores and chances and also for IN and OUT and with different nodes in general

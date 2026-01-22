@@ -26,13 +26,33 @@ class Flow {
     }
 
     setChance(id1, id2, chance) {
-        console.log(`Setting chance for [${id1}][${id2}]:`, chance);
+        // console.log(`Setting chance for [${id1}][${id2}]:`, chance);
         this.connectionChances[id1][id2] = chance;
     }
 
     getChance(id1, id2) {
         return this.connectionChances[id1][id2] || 50;
     }
+
+    clearNode(id) {
+        //Go through all letter chances (A-Z) (2x)
+        for(let i of ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]) {
+            this.nodes[id].letterChances1[i] = 50;
+            this.nodes[id].letterChances2[i] = 50;
+        }
+        //Go through all connection chances (go through all node ids 2D without -2 and -1)
+        let allIds = Object.keys(this.nodes);
+
+        for(let i = 0; i < allIds.length; i++) {
+            for(let j = 0; j < allIds.length; j++) {
+                if(id == allIds[i] || id == allIds[j]) {
+                    this.setChance(allIds[i], allIds[j], 50);
+                }
+            }
+        }
+        //Set all to 50
+    }
+
 
     init() {
         // Create IN and OUT nodes
@@ -92,7 +112,7 @@ class Flow {
             //How the fuck do i check here and is that correct because isnt comnections a dict (dict[j] might not get all nodes id ones were deleted?)
             for(let j = 0; j < connections.length; j++)
             {
-                console.log(this.getChance(connections[j][0], connections[j][1]));
+                // console.log(this.getChance(connections[j][0], connections[j][1]));
                 //This is still wrong somehow (error) Is this now still wrong???? -> tests
                 this.setChance(connections[j][0], connections[j][1], this.chanceLimit(this.getChance(connections[j][0], connections[j][1]), nodeScore, connections[j][0]));
             }
@@ -146,8 +166,10 @@ class Flow {
         for(let i = 0; i < allIds.length; i++) {
             if((allIds[i] == -1) || (allIds[i] == -2)) {
                 if(Object.values(this.nodes[allIds[i]].letterChances1).includes(0) || Object.values(this.nodes[allIds[i]].letterChances1).includes(100) || Object.values(this.nodes[allIds[i]].letterChances2).includes(0) || Object.values(this.nodes[allIds[i]].letterChances2).includes(100)) {
-                    this.deleteNode(allIds[i]);
-                    this.addNode(allIds[i]);
+                    // this.deleteNode(allIds[i]);
+                    // this.addNode(allIds[i]);
+
+                    this.clearNode(allIds[i]);
 
                     console.log("Delete");
                 }
@@ -158,13 +180,17 @@ class Flow {
         //I think this will not work correctly
         let keys = [];
         for(let i in this.connectionChances) {
-            if ((this.connectionChances[i] == 100) || (this.connectionChances[i] == 0)) {
-                keys.push(i);  // Collects ALL: ['a', 'c']
+            for(let j in this.connectionChances) {
+                if ((this.connectionChances[i][j] == 100) || (this.connectionChances[i][j] == 0)) {
+                    keys.push(i);  // Collects ALL: ['a', 'c']
+                }
             }
         }
         for(let i = 0; i < keys.length; i++) {
-            this.deleteNode(keys[i]);
-            this.addNode(allIds[i]);
+            // this.deleteNode(keys[i]);
+            // this.addNode(keys[i]);
+
+            this.clearNode(keys[i]);
 
             console.log("Delete");
         }
@@ -275,6 +301,13 @@ class Flow {
         //     console.log(this.nodes[allIds[i]].letterChances1);
         // }
 
-        console.log(this.connectionChances);
+        //console.log(this.connectionChances);
+        console.log(JSON.stringify(flow.connectionChances))
+
+        // for(let i = 0; i < allIds.length; i++) {
+        //     for(let j = 0; j < allIds.length; j++) {
+        //         console.log("hi: " + this.getChance(allIds[i], allIds[j]));
+        //     }
+        // }
     }
 }
