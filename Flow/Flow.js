@@ -4,7 +4,7 @@ class Flow {
 
         this.score = new Score();
 
-        this.deletionAge = 200;
+        this.deletionAge = 1;
 
         this.inputText = "";
         this.outputText = "";
@@ -35,6 +35,8 @@ class Flow {
     }
 
     clearNode(id) {
+        //Set age back to 0
+        this.nodes[id].age = 0;
         //Go through all letter chances (A-Z) (2x)
         for(let i of ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]) {
             this.nodes[id].letterChances1[i] = 50;
@@ -45,7 +47,8 @@ class Flow {
 
         for(let i = 0; i < allIds.length; i++) {
             for(let j = 0; j < allIds.length; j++) {
-                if(id == allIds[i] || id == allIds[j]) {
+                if((id == allIds[i] || id == allIds[j]) && (allIds[i] != -1 && allIds[i] != -2)) {
+                    //console.log(allIds[j]);
                     this.setChance(allIds[i], allIds[j], 50);
                 }
             }
@@ -168,10 +171,11 @@ class Flow {
                 if(Object.values(this.nodes[allIds[i]].letterChances1).includes(0) || Object.values(this.nodes[allIds[i]].letterChances1).includes(100) || Object.values(this.nodes[allIds[i]].letterChances2).includes(0) || Object.values(this.nodes[allIds[i]].letterChances2).includes(100)) {
                     // this.deleteNode(allIds[i]);
                     // this.addNode(allIds[i]);
+                    if(this.nodes[allIds[i]].age > this.deletionAge) {
+                        this.clearNode(allIds[i]);
 
-                    this.clearNode(allIds[i]);
-
-                    console.log("Delete");
+                        console.log("Delete");
+                    }
                 }
             }
         }
@@ -189,10 +193,11 @@ class Flow {
         for(let i = 0; i < keys.length; i++) {
             // this.deleteNode(keys[i]);
             // this.addNode(keys[i]);
+            if(this.nodes[keys[i]].age > this.deletionAge) {
+                this.clearNode(keys[i]);
 
-            this.clearNode(keys[i]);
-
-            console.log("Delete");
+                console.log("Delete");
+            }
         }
 
 
@@ -223,10 +228,11 @@ class Flow {
                 let currentChance = this.getChance(allIds[i], allIds[j]);
 
                 //Decide with random
-                if(((Math.random() * 100) < currentChance) && (allIds[j] != -1)) {
+                if(((Math.random() * 100) < currentChance) && (allIds[i] != -1) && (allIds[j] != -2)) {
                     //Save chosen connection
                     //What format??? what is input and what output (i or j)???  ---------- first is input then output
                     this.nodes[allIds[i]].chosenConnections.push([allIds[i], allIds[j]]);
+                    //console.log("RConnections: " + allIds[i] + " : " + this.getChance(allIds[i],allIds[j]));
                 }
             }
         } 
@@ -309,5 +315,160 @@ class Flow {
         //         console.log("hi: " + this.getChance(allIds[i], allIds[j]));
         //     }
         // }
+    }
+
+
+
+
+
+    math() {
+        //Go through all nodes (at if possible the same time)
+        //Get all current values of each node(in a new array maybe -> a copy)
+        let allIds = Object.keys(this.nodes);
+
+        let allValues = {};
+        for(let i = 0; i < allIds.length; i++) {
+            allValues[allIds[i]] = this.nodes[allIds[i]].value;
+            //console.log("Connected Values2: " + this.nodes[allIds[i]].value);
+        }
+        //console.log("Connected Values2: " + JSON.stringify(allValues));
+        //console.log("Values: " + JSON.stringify(allValues));
+        //Use those values with nALL to create the new values for each node (even -2 and -1)
+        for(let i = 0; i < allIds.length; i++) {
+            //skip nodes -1 and -2 and instead own function for -1 (OUT)
+            if(allIds[i] != -1 && allIds[i] != -2) {
+                this.nodes[allIds[i]].value = this.nALL(allIds[i], allValues);
+            } else if(allIds[i] == -1) {
+
+            }
+        }
+    }
+
+    nALL(id, allValues) {
+        //Get chosen letter 1(IN) and 2(OUT)
+        //Get all input values for the node with connections
+        //
+        //
+        let letterIn = this.nodes[id].chosenLetter1;
+        let letterOut = this.nodes[id].chosenLetter2;
+
+
+        //Get all values from all nodes   ----- input to function
+        //Go through all nodes to with chosenConnections array to get all nodes that connect  -> search all 1st indecies not 0ths
+        let connectedConnections = [];
+
+        let allIds = Object.keys(this.nodes);
+
+        for(let i = 0; i < allIds.length; i++) {
+            let usedConnections = this.nodes[allIds[i]].chosenConnections;
+
+            for(let j = 0; j < usedConnections.length; j++) {
+                if(usedConnections[j][1] == id) {
+                    connectedConnections.push(usedConnections[j][0]);
+                }
+            }
+        }
+        // console.log("Connected: " + id + " : " + JSON.stringify(connectedConnections));
+        //Get each value from each input from allValues
+        let connectedValues = [];
+
+        for(let i = 0; i < connectedConnections.length; i++) {
+            connectedValues.push(allValues[connectedConnections[i]]);
+        }
+        // console.log("Connected Values111: " + id + " : " + JSON.stringify(allValues));
+        // console.log("Connected Values: " + id + " : " + JSON.stringify(connectedValues));
+
+        //If all are == letterIN then ->ALL but not so then output 'nothing'
+        //If not all == letterIN then -> letterOUT as output
+
+        
+        return this.arrAllEqual(connectedValues, letterIn, 'nothing', letterOut);
+    }
+
+    arrAllEqual(array, targetString, trueOutput, falseOutput) {
+        for(let i = 0; i < array.length; i++) {
+            if(array[i] != targetString) {
+                return falseOutput;
+            }
+        }
+        return trueOutput;
+    }
+
+    setInput() {
+        let inputVariable = 'nothing';
+
+        if(inputTextField.length > inputLength) {
+            inputLength = inputTextField.length;
+            //For now everything just has to be normal letter all in caps without spaces
+            inputVariable = inputTextField[inputTextField.length - 1];
+        }
+
+        this.nodes[-2].value = 'A';
+        //console.log("In: " + this.nodes[-2].value);
+    }
+
+
+    setOutput() {
+        let allIds = Object.keys(this.nodes);
+
+        let allValues = {};
+        for(let i = 0; i < allIds.length; i++) {
+            allValues[allIds[i]] = this.nodes[allIds[i]].value;
+            //console.log("Connected Values2: " + this.nodes[allIds[i]].value);
+        }
+
+
+        let letterIn = this.nodes[-1].chosenLetter1;
+        let letterOut = this.nodes[-1].chosenLetter2;
+
+
+        //Get all values from all nodes   ----- input to function
+        //Go through all nodes to with chosenConnections array to get all nodes that connect  -> search all 1st indecies not 0ths
+        let connectedConnections = [];
+
+
+        for(let i = 0; i < allIds.length; i++) {
+            let usedConnections = this.nodes[allIds[i]].chosenConnections;
+
+            for(let j = 0; j < usedConnections.length; j++) {
+                if(usedConnections[j][1] == -1) {
+                    connectedConnections.push(usedConnections[j][0]);
+                }
+            }
+        }
+        // console.log("Connected: " + id + " : " + JSON.stringify(connectedConnections));
+        //Get each value from each input from allValues
+        let connectedValues = [];
+
+        for(let i = 0; i < connectedConnections.length; i++) {
+            connectedValues.push(allValues[connectedConnections[i]]);
+        }
+
+        //Get the most frequent in the connectedValues array
+        let mostFrequentDict = {};
+        let maxValueFrequency = 0; //0 just a placeholder
+        let maxValue = '';
+
+        for(let i = 0; i < connectedValues.length; i++) {
+            mostFrequentDict[connectedValues[i]] = (mostFrequentDict[connectedValues[i]] || 0) + 1;
+
+            if(mostFrequentDict[connectedValues[i]] > maxValueFrequency) {
+                maxValueFrequency = mostFrequentDict[connectedValues[i]];
+                maxValue = connectedValues[i];
+            }
+        }
+
+
+        //Set it as value for -1
+        this.nodes[-2].value = maxValue;
+        //Add it to text output if not 'nothing'
+        if(maxValue != 'nothing') {
+            console.log("Win");
+            if (userOutput.textContent.length > 10) {  // Adjust threshold as needed
+                userOutput.textContent = userOutput.textContent.slice(1);
+            }
+
+            userOutput.textContent += maxValue;
+        }
     }
 }

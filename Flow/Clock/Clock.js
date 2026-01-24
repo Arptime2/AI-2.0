@@ -20,18 +20,21 @@ async function startClock(...flows) {
     if(!stop) {
         console.log("Clock");
         {
-            setTimeout(clockTick, 30);  // REUSES same fn forever
+            setTimeout(clockTick, 200);  // REUSES same fn forever
 
 
-            //Do tests here later
-            //And also sometimes just output matricies to see
+            //Update IN and get OUTput????
+            //Set input each time ()
+            //Get output each time and add it to test text
+            flow.setInput();
+            flow.setOutput();
 
 
 
             //First update the age of every node
             flow.tests();
-            //flow.updateAges(); //easy test ---- works
-
+            flow.updateAges(); //easy test ---- works
+            
             //Score first
             flow.setScore(); //easy test  ----- works
 
@@ -41,10 +44,16 @@ async function startClock(...flows) {
 
             //Then delete/create nodes
             flow.manageNodes(); //I think there is an error ther with this: ((this.connectionChances[i] == 100) || (this.connectionChances[i] == 0)) what do i actually want to check there??? connectionChances is 2D
+            //flow.tests();
 
             //Then reroll connections and letters with chances
             flow.rerollConnections(); //test with different scores and chances and also for IN and OUT and with different nodes in general
             flow.rerollLetters(); //test with different scores and chances and also for IN and OUT and diffrent nodes in general
+
+
+
+            //
+            flow.math();
         }
     }
     //console.log(flows);

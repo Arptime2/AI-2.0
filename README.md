@@ -48,3 +48,14 @@ So i still have to:
 -> limit -2 and remove -1
 
 Then test
+
+
+
+
+
+Finish allEqual
+Then make a function for -1 node
+
+
+
+The scoring is not yet working correctly looking at the A test that i am doing!!!!!!!!!!!!
