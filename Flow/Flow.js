@@ -4,7 +4,7 @@ class Flow {
 
         this.score = new Score();
 
-        this.deletionAge = 1;
+        this.deletionAge = 500;
 
         this.inputText = "";
         this.outputText = "";
