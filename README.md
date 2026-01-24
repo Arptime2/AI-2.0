@@ -59,3 +59,8 @@ Then make a function for -1 node
 
 
 The scoring is not yet working correctly looking at the A test that i am doing!!!!!!!!!!!!
+
+How am i sometimes getting undefined or '' still????
+
+
+Why cant -1 go down to actual 0?

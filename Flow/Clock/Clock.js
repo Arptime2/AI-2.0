@@ -8,7 +8,7 @@ async function startClockInit(...flows) {
 
 
     //Create starting population
-    flow.startingPopulation(10);
+    flow.startingPopulation(2);
 
     clockTick();
 
@@ -20,7 +20,7 @@ async function startClock(...flows) {
     if(!stop) {
         console.log("Clock");
         {
-            setTimeout(clockTick, 50);  // REUSES same fn forever
+            setTimeout(clockTick, 20);  // REUSES same fn forever
 
 
             //Update IN and get OUTput????

@@ -4,7 +4,7 @@ class Flow {
 
         this.score = new Score();
 
-        this.deletionAge = 500;
+        this.deletionAge = 5000;
 
         this.inputText = "";
         this.outputText = "";
@@ -464,7 +464,7 @@ class Flow {
         //Set it as value for -1
         this.nodes[-1].value = maxValue;
         //Add it to text output if not 'nothing'
-        if(maxValue != 'nothing') {
+        if(maxValue != 'nothing' && maxValue != '' && maxValue != undefined) {
             console.log("Win");
             if (userOutput.textContent.length > 10) {  // Adjust threshold as needed
                 userOutput.textContent = userOutput.textContent.slice(1);
