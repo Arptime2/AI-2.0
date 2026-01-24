@@ -20,7 +20,7 @@ async function startClock(...flows) {
     if(!stop) {
         console.log("Clock");
         {
-            setTimeout(clockTick, 200);  // REUSES same fn forever
+            setTimeout(clockTick, 50);  // REUSES same fn forever
 
 
             //Update IN and get OUTput????

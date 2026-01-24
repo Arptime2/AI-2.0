@@ -70,6 +70,8 @@ class Flow {
         let input = this.nodes[-2].value;
         let output = this.nodes[-1].value;
 
+        console.log("Both: " + input + "|" + output);
+
         if(input == "nothing") {
             if(input == output) {
                 this.score.setCorrectNothingScore();
@@ -460,7 +462,7 @@ class Flow {
 
 
         //Set it as value for -1
-        this.nodes[-2].value = maxValue;
+        this.nodes[-1].value = maxValue;
         //Add it to text output if not 'nothing'
         if(maxValue != 'nothing') {
             console.log("Win");
