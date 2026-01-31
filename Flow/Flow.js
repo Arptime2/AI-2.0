@@ -38,7 +38,7 @@ class Flow {
         //Set age back to 0
         this.nodes[id].age = 0;
         //Go through all letter chances (A-Z) (2x)
-        for(let i of ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]) {
+        for(let i of ["1", "0"]) {
             this.nodes[id].letterChances1[i] = 50;
             this.nodes[id].letterChances2[i] = 50;
         }
@@ -384,7 +384,7 @@ class Flow {
         //If not all == letterIN then -> letterOUT as output
 
         
-        return this.arrAllEqual(connectedValues, letterIn, 'nothing', letterOut);
+        return this.arrAllEqual(connectedValues, "1", "0", "1");
     }
 
     arrAllEqual(array, targetString, trueOutput, falseOutput) {
@@ -397,17 +397,18 @@ class Flow {
     }
 
     setInput() {
-        let inputVariable = 'nothing';
+        let inputVariable = '0';
 
         if(inputTextField.length > inputLength) {
             inputLength = inputTextField.length;
             //For now everything just has to be normal letter all in caps without spaces
             inputVariable = inputTextField[inputTextField.length - 1];
         }
-        if(this.nodes[-2].value != 'A') {
-            this.nodes[-2].value = 'A';
+        //This is a test:
+        if(this.nodes[-2].value != '1') {
+            this.nodes[-2].value = '1';
         } else {
-            this.nodes[-2].value = 'B';
+            this.nodes[-2].value = '1';
         }
         //console.log("In: " + this.nodes[-2].value);
     }
