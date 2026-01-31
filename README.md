@@ -64,3 +64,9 @@ How am i sometimes getting undefined or '' still????
 
 
 Why cant -1 go down to actual 0?
+
+
+Why can it just pass straight to -1 through?????
+
+
+Add variables to punish a wrong answer after many correct ones and reward a correct answer more after many wrong answers

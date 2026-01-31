@@ -21,7 +21,7 @@ class Score {
     }
 
     setIncorrectScore() {
-        this.currentStreak = 1;
+        this.currentStreak = 0;
 
         this.score = this.incorrectScore;
 

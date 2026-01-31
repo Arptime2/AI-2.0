@@ -404,8 +404,11 @@ class Flow {
             //For now everything just has to be normal letter all in caps without spaces
             inputVariable = inputTextField[inputTextField.length - 1];
         }
-
-        this.nodes[-2].value = 'A';
+        if(this.nodes[-2].value != 'A') {
+            this.nodes[-2].value = 'A';
+        } else {
+            this.nodes[-2].value = 'B';
+        }
         //console.log("In: " + this.nodes[-2].value);
     }
 

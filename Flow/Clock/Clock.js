@@ -20,14 +20,14 @@ async function startClock(...flows) {
     if(!stop) {
         console.log("Clock");
         {
-            setTimeout(clockTick, 20);  // REUSES same fn forever
+            setTimeout(clockTick, 1);  // REUSES same fn forever
 
 
             //Update IN and get OUTput????
             //Set input each time ()
             //Get output each time and add it to test text
-            flow.setInput();
             flow.setOutput();
+            flow.setInput();
 
 
 
